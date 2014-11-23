@@ -7,6 +7,7 @@
 package mesh.vertex;
 
 import java.util.ArrayList;
+import mesh.edge.AdjustableEdge;
 import mesh.edge.Edge;
 import mesh.vertex.properties.VertexProperty;
 import physics.*;
@@ -61,6 +62,14 @@ public class Vertex {
     public Vector getVelocity(){ return velocity; }
     public long getID(){ return ID; }
     public ArrayList<VertexProperty> getProperties() { return properties;}
+    
+    public ArrayList<AdjustableEdge> getAdjustableEdges(){
+        ArrayList<AdjustableEdge> result = new ArrayList<>();
+        for(Edge e : edges)
+            if(e instanceof AdjustableEdge)
+                result.add((AdjustableEdge)e);
+        return result;
+    }
     
     /**
      * Safely executes the VertexProperties

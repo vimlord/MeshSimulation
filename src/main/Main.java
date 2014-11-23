@@ -8,6 +8,7 @@ package main;
 
 import gui.GUI;
 import gui.control.Controller;
+import gui.control.ArmController;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import mesh.Mesh;
@@ -88,6 +89,61 @@ public class Main {
         return new Mesh(vertices);
     }
     
+    
+    public static Mesh buildArm(Coordinate anchor, double pointMasses, double boneStrength, double muscleStrength){
+        ArrayList<Vertex> vertices = new ArrayList<>();
+        
+        //Default Properties for Edges
+        ArrayList<EdgeProperty> prop = new ArrayList<>();
+        prop.add(new EdgeFriction(0.0001));
+        
+        for(int i = 0; i < 3; i++){
+            vertices.add(new Vertex(new Coordinate(anchor.X(), anchor.Y(), anchor.Z() + (10 * i)), null, pointMasses, 0));
+            if(i > 0)
+                vertices.get(i).getEdges().add(new Edge(vertices.get(i).getID(), vertices.get(i-1).getID(), boneStrength, 10, prop));
+        }
+        
+        for(int i = 0; i < 12; i++){
+            vertices.add(new Vertex(new Coordinate(anchor.X() + Math.cos(i*Math.PI/2), anchor.Y() + Math.sin(i*Math.PI/2), anchor.Z() + (10 * (int)(i/4.0))), null, pointMasses, 0));
+            vertices.get(i+3).getEdges().add(new Edge(vertices.get(i+3).getID(), vertices.get((int)(i/4.0)).getID(), boneStrength, 1, prop));
+            if((int)(i/4) == 0)
+                vertices.get(i+3).getProperties().add(new VertexStatic());
+            if((i%4) > 1)
+                vertices.get(i+3).getEdges().add(new Edge(vertices.get(i+3).getID(), vertices.get(i+1).getID(), boneStrength, 2, prop));
+        }
+        
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 4; j++){
+                if(i > 0)
+                    vertices.get(i).getEdges().add(new Edge(vertices.get(i).getID(), vertices.get((int)(-1 + 4*i + j)).getID(), boneStrength, Math.sqrt(101), prop));
+                if(i < 2)
+                    vertices.get(i).getEdges().add(new Edge(vertices.get(i).getID(), vertices.get((int)(7 + 4*i + j)).getID(), boneStrength, Math.sqrt(101), prop));
+            }
+        }
+        
+        
+        for(int i = 3; i <= 10; i++){
+            int[] indexes = {i+3,i+4,i+5};
+            for(int j : indexes){
+                if(j > 10 + 4*(int)((i-3)/4))
+                    j-=4;
+                else if(j < 7 + 4*(int)((i-3)/4))
+                    j+=4;
+                vertices.get(i).getEdges().add(new AdjustableEdge(vertices.get(i).getID(), vertices.get(j).getID(), boneStrength, new Vector(vertices.get(i).getPosition(),vertices.get(j).getPosition()).getMagnitude(), prop));
+            }
+        }
+        
+        for(int i = 0; i <= 3; i++){
+            vertices.get(11+i).getEdges().add(new Edge(vertices.get(11+i).getID(), vertices.get(11 + (i+1)%4).getID(), boneStrength, Math.sqrt(2), prop));
+            vertices.get(7+i).getEdges().add(new AdjustableEdge(vertices.get(7+i).getID(), vertices.get(7 + (i+1)%4).getID(), boneStrength, Math.sqrt(2), prop));
+        }
+            
+        
+        return new Mesh(vertices);
+        
+    }
+    
+    
     /**
      * Creates an arm.
      * @param anchor The anchor point.
@@ -109,7 +165,7 @@ public class Main {
      * Vertices 9-10 have AdjustableEdges that control elevation. 9 has it at 2, 10 has it at 1
      * 
      */
-    public static Mesh buildArm(Coordinate anchor, double pointMasses, double boneStrength, double muscleStrength){
+    public static Mesh buildArm_V1(Coordinate anchor, double pointMasses, double boneStrength, double muscleStrength){
         ArrayList<Vertex> vertices = new ArrayList<>();
         
         //Default Properties for Edges
@@ -254,12 +310,12 @@ public class Main {
             KeyEvent.VK_F, 
             KeyEvent.VK_H,
             KeyEvent.VK_I, 
-            KeyEvent.VK_J, 
             KeyEvent.VK_K, 
+            KeyEvent.VK_J, 
             KeyEvent.VK_L,
         };
         
-        return new Controller(name, indexes);
+        return new ArmController(name, indexes);
     }
     
     public static Controller build2DController(String name){
