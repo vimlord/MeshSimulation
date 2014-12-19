@@ -37,6 +37,9 @@ public class WorldManager {
         
         world.executeMovement(time);
         
+        //Unstable; needs A LOT of work
+        world.executeCollisions();
+        
     }
     
     private static double confirmCheck(){

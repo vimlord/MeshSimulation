@@ -53,7 +53,7 @@ public class GUI extends Applet implements KeyListener, MouseListener, MouseMoti
         addMouseMotionListener(this);
         
         //Creates a JFrame with a title
-        frame = new JFrame("Applet");
+        frame = new JFrame("MeshSimulation");
         //Puts the Tester object into thhe JFrame
 	frame.add(this);
         //Sets the size of the applet to be 800 pixels wide  by 600 pixels high

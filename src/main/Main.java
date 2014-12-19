@@ -33,9 +33,10 @@ public class Main {
         
         GUI.getGUI().setController(buildArmController("Test"));
         
-        //WorldManager.setWorld(buildCubeDemo());
+        WorldManager.setWorld(buildCollisionDemo());
         
-        WorldManager.getWorld().addMesh(buildArm(new Coordinate(10,0,0), 1, 20000, 25000));
+        //WorldManager.getWorld().addMesh(buildArm(new Coordinate(25,0,0),10,20000,20000));
+        
         
         WorldManager.startSimulation();
         
@@ -73,13 +74,13 @@ public class Main {
         //vertices.get(0).applyForce(new Vector(20, Math.toRadians(190), Math.toRadians(-7)));
         
         ArrayList<EdgeProperty> prop = new ArrayList<>();
-        prop.add(new EdgeFriction(0.001));
+        //prop.add(new EdgeFriction(0.001));
         
         //Creates Edges
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
                 if(i!=j){
-                    Edge e = new Edge(vertices.get(i).getID(), vertices.get(j).getID(), constant, (new Vector(vertices.get(i).getPosition(),vertices.get(j).getPosition())).getMagnitude() * (distFactor),prop);
+                    Edge e = new Edge(vertices.get(i).getID(), vertices.get(j).getID(), constant,(new Vector(vertices.get(i).getPosition(),vertices.get(j).getPosition())).getMagnitude() * (distFactor),prop);
                     vertices.get(i).getEdges().add(e);
                 }
             }
@@ -332,8 +333,25 @@ public class Main {
         
         World w = new World();
         
-        w.addMesh(buildCube(10, 10, 10, 1, new Coordinate(40,3,1)));
-        w.addMesh(buildCube(10, 10, 10, 0.9, new Coordinate(40,-3,-11)));
+        w.addMesh(buildCube(10, 10, 10, 1, new Coordinate(40,3,6)));
+        w.addMesh(buildCube(10, 10, 10, 1.25, new Coordinate(40,-3,-16)));
+        
+        return w;
+        
+    }
+    
+    /**
+     * Builds a World with two colliding cubes in it.
+     * @return The requested World
+     */
+    public static World buildCollisionDemo(){
+        
+        World w = new World();
+        
+        w.addMesh(buildCube(10, 10, 10, 1, new Coordinate(40,0,11)));
+        w.addMesh(buildCube(10, 15, 10, 1, new Coordinate(37.5,-2.5,-21)));
+        w.getMesh(1).applyForce(new Vector(500.0,Math.PI/2.0,0.0));
+        w.getMesh(0).applyForce(new Vector(-500.0,Math.PI/2.0,0.0));
         
         return w;
         

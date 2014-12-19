@@ -116,5 +116,12 @@ public class Vector {
         return new Vector(1, XZ, Y);
     }
     
+    public static double dotProduct(Vector a, Vector b){
+        return (a.getMagnitudeX() * b.getMagnitudeX() + a.getMagnitudeY() * b.getMagnitudeY() + a.getMagnitudeZ() * b.getMagnitudeZ());
+    }
+    
+    public static double cosOfAngleBetween(Vector a, Vector b){
+        return dotProduct(a,b)/(a.magnitude * b.magnitude);
+    }
     
 }

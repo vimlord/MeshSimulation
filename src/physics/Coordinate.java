@@ -41,4 +41,8 @@ public class Coordinate {
     public String toString(){
         return "(" + x + "," + y + "," + z + ")";
     }
+    
+    public static double relativeDistance(Coordinate a, Coordinate b){
+        return Math.sqrt(Math.pow(a.X() - b.X(), 2) + Math.pow(a.Y() - b.Y(), 2) + Math.pow(a.Z() - b.Z(), 2));
+    }
 }
