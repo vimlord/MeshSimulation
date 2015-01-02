@@ -33,7 +33,7 @@ public class Main {
         
         GUI.getGUI().setController(buildArmController("Test"));
         
-        WorldManager.setWorld(buildCollisionDemo());
+        WorldManager.setWorld(buildBridgeDemo());
         
         //WorldManager.getWorld().addMesh(buildArm(new Coordinate(25,0,0),10,20000,20000));
         
@@ -90,6 +90,75 @@ public class Main {
         return new Mesh(vertices);
     }
     
+    
+    public static World buildBridgeDemo(){
+        World w = new World();
+        
+        w.addMesh(buildBridge(new Coordinate(15,0,0),1000,9,5,6));
+        
+        return w;
+    }
+    
+    public static Mesh buildBridge(Coordinate anchor, double tension, int length, int width, int numTestWeights){
+        ArrayList<Vertex> vertices = new ArrayList<>();
+        
+        for(int i = 0; i < length; i++){
+            double Z = (i-(length/2+1)) + anchor.Z();
+            for(int j = 0; j < width; j++){
+                double X = (j-(width/2+1)) + anchor.X();
+                for(int k = 0; k < 2; k++){
+                    double Y = (k-1) + anchor.Y();
+                    vertices.add(new Vertex(new Coordinate(X,Y,Z), null,10,0));
+                }
+            }
+        }
+        
+        ArrayList<EdgeProperty> prop = new ArrayList<>();
+        prop.add(new EdgeFriction(0.0005));
+        prop.add(new EdgeBreakable(2500));
+        
+        for(int i = 0; i < vertices.size(); i++){
+            
+            if(i%2==0)
+                vertices.get(i).getEdges().add(new Edge(vertices.get(i).getID(), vertices.get(i+1).getID(), tension, 1, prop));
+            
+            if(i%(2*width) < (2*width)-2)
+                vertices.get(i).getEdges().add(new Edge(vertices.get(i).getID(), vertices.get(i+2).getID(), tension, 1, prop));
+            
+            if(i/(2*width) < length-1){
+                vertices.get(i).getEdges().add(new Edge(vertices.get(i).getID(), vertices.get(i+(2*width)).getID(), tension, 1, prop));
+                
+                if(i%(2*width) < (2*width)-2)
+                    vertices.get(i).getEdges().add(new Edge(vertices.get(i).getID(), vertices.get(i+(2*width)+2).getID(), tension, Math.sqrt(2), prop));
+                if(i%(2*width) > 1)
+                    vertices.get(i).getEdges().add(new Edge(vertices.get(i).getID(), vertices.get(i+(2*width)-2).getID(), tension, Math.sqrt(2), prop));
+                
+                vertices.get(i).getEdges().add(new Edge(vertices.get(i).getID(), vertices.get(i+(2*width)+1-2*(i%2)).getID(), tension, Math.sqrt(2), prop));
+            }
+            
+            if(i%(2*width) < (2*width)-2){
+                vertices.get(i).getEdges().add(new Edge(vertices.get(i).getID(), vertices.get(i+1+(2*(1-(i%2)))).getID(), tension, Math.sqrt(2), prop));
+            }
+        }
+        
+        for(int i=0; i < 3; i++)
+            for(int j=0; j<2; j++)
+                vertices.get((length-1)*width*i+2*(width-1)*j).getProperties().add(new VertexStatic());
+        
+        vertices.add(new Vertex(new Coordinate(0,-6370000,0),null,-5.972*Math.pow(10,24),0));
+        
+        for(int i = 0; i < numTestWeights; i++){
+            Vertex v = vertices.get((int)(Math.random()*(vertices.size()-i-1)));
+            
+            Vertex add = new Vertex(new Coordinate(v.getPosition().X(),v.getPosition().Y()-5, v.getPosition().Z()),null,100,0);
+            
+            v.getEdges().add(new Edge(v.getID(),add.getID(),tension,5,null));
+            
+            vertices.add(add);
+        }
+        
+        return new Mesh(vertices);
+    }
     
     public static Mesh buildArm(Coordinate anchor, double pointMasses, double boneStrength, double muscleStrength){
         ArrayList<Vertex> vertices = new ArrayList<>();
@@ -348,8 +417,8 @@ public class Main {
         
         World w = new World();
         
-        w.addMesh(buildCube(10, 10, 10, 1, new Coordinate(40,0,11)));
-        w.addMesh(buildCube(10, 15, 10, 1, new Coordinate(37.5,-2.5,-21)));
+        w.addMesh(buildCube(10, 10, 10, 1, new Coordinate(40,0,51)));
+        w.addMesh(buildCube(10, 15, 10, 1, new Coordinate(37.5,-2.5,-61)));
         w.getMesh(1).applyForce(new Vector(500.0,Math.PI/2.0,0.0));
         w.getMesh(0).applyForce(new Vector(-500.0,Math.PI/2.0,0.0));
         

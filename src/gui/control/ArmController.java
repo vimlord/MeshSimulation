@@ -32,13 +32,13 @@ public class ArmController extends Controller{
             GUI.getGUI().getCamera().getPosition().addVector(new Vector(2.5 * Math.pow(10, -2), GUI.getGUI().getCamera().getXZ() - Math.PI/2.0, 0));
 
         if(getState(4))
-            GUI.getGUI().getCamera().setDirection(new Vector(1, GUI.getGUI().getCamera().getXZ(), GUI.getGUI().getCamera().getY() + 2.5 * Math.pow(10, -3)));
+            GUI.getGUI().getCamera().setDirection(new Vector(1, GUI.getGUI().getCamera().getXZ(), GUI.getGUI().getCamera().getY() + 5 * Math.pow(10, -3)));
         if(getState(5))
-            GUI.getGUI().getCamera().setDirection(new Vector(1, GUI.getGUI().getCamera().getXZ() + 2.5 * Math.pow(10, -3), GUI.getGUI().getCamera().getY()));
+            GUI.getGUI().getCamera().setDirection(new Vector(1, GUI.getGUI().getCamera().getXZ() + 5 * Math.pow(10, -3), GUI.getGUI().getCamera().getY()));
         if(getState(6))
-            GUI.getGUI().getCamera().setDirection(new Vector(1, GUI.getGUI().getCamera().getXZ(), GUI.getGUI().getCamera().getY() - 2.5 * Math.pow(10, -3)));
+            GUI.getGUI().getCamera().setDirection(new Vector(1, GUI.getGUI().getCamera().getXZ(), GUI.getGUI().getCamera().getY() - 5 * Math.pow(10, -3)));
         if(getState(7))
-            GUI.getGUI().getCamera().setDirection(new Vector(1, GUI.getGUI().getCamera().getXZ() - 2.5 * Math.pow(10, -3), GUI.getGUI().getCamera().getY()));
+            GUI.getGUI().getCamera().setDirection(new Vector(1, GUI.getGUI().getCamera().getXZ() - 5 * Math.pow(10, -3), GUI.getGUI().getCamera().getY()));
         
         
         if(true){

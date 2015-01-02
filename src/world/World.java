@@ -318,7 +318,7 @@ public class World implements Constants{
                 for(int l = 0; l < 4; l++){
                     X = (vertices.get(b[l]).getMass()*vertices.get(b[l]).getPosition().X())/massSumB - (vertices.get(a[l]).getMass()*vertices.get(a[l]).getPosition().X())/massSumA;
                     Y = (vertices.get(b[l]).getMass()*vertices.get(b[l]).getPosition().Y())/massSumB - (vertices.get(a[l]).getMass()*vertices.get(a[l]).getPosition().Y())/massSumA;;
-                    Z = (vertices.get(b[l]).getMass()*vertices.get(b[l]).getPosition().X())/massSumB - (vertices.get(a[l]).getMass()*vertices.get(a[l]).getPosition().Z())/massSumA;;
+                    Z = (vertices.get(b[l]).getMass()*vertices.get(b[l]).getPosition().Z())/massSumB - (vertices.get(a[l]).getMass()*vertices.get(a[l]).getPosition().Z())/massSumA;;
                     p1.addVectorToThis(new Vector(vertices.get(a[l]).getVelocity(),vertices.get(a[l]).getMass()));
                     p2.addVectorToThis(new Vector(vertices.get(b[l]).getVelocity(),vertices.get(b[l]).getMass()));
                 }

@@ -30,6 +30,7 @@ public class WorldManager {
     }
     
     public static void executePhysics(double time){
+        //time = 0;
         //This executes Gravitational, Electromagnetic, Strong, and Weak forces
         world.executeFundamentalInteractions(time);
         
@@ -38,7 +39,8 @@ public class WorldManager {
         world.executeMovement(time);
         
         //Unstable; needs A LOT of work
-        world.executeCollisions();
+        if(false)
+            world.executeCollisions();
         
     }
     

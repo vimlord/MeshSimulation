@@ -22,17 +22,11 @@ public class EdgeBreakable extends EdgeProperty{
     
     /**
      * Creates an EdgeBreakable property
-     * @param propOwner The owner of the Property
-     * @param maxValue The largest value for the tension or distance
-     * @param tension If true, then maxValue is force, otherwise, it's the distance
+     * @param maxTension The largest value for the tension
      */
-    public EdgeBreakable(Edge propOwner, double maxValue, boolean tension){
+    public EdgeBreakable(double maxTension){
         //F = F
-        if(tension)
-            maxTension = maxValue;
-        //F = kx
-        else
-            maxTension = maxValue * propOwner.getConstant();
+        this.maxTension = maxTension;
     }
     
     @Override
