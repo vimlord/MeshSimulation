@@ -7,13 +7,13 @@ This program is an engine that allows for simulation of objects that contain poi
 
 
 ###Physics
-The program is designed to follow the laws of physics in the real world. This includes conservation of momentum and the Newtonian laws of motion. The program also includes gravitational and electromagnetic forces, whic occur between every mass in the simulator.
+The program is designed to follow the laws of physics in the real world. This includes conservation of momentum and the Newtonian laws of motion. The program also includes gravitational and electromagnetic forces, which occur between every mass in the simulator, and support for collision physics between meshes.
 
 ###Meshes
 Meshes are sets of vertices, which have velocity, position, mass, and electromagnetic charge. Vertices can be connected to one another by Edges, which keep Vertices within a specified distance of another and act like springs.
 
 ###Controllers
-Controllers are currently only a framework. Their purpose is to allow a user to interact with the simulation. For example, I slightly modified the program to create an arm that can be controlled via the keyboard.
+Controllers are classes that can be used to control aspects within the simulation. Controllers are extensions of the Controller class, and are held by the GUI class as a means of determining what the user wants to do.
 
 ##How to Use
 
@@ -50,7 +50,7 @@ The GUI for the program is broken down into two components: input and output. Th
 
 #####Controller
 
-The Controller class is the only class really involved in controlling the simulation. This allows for key mapping and naming. This data can later be used to determine which keys are being pressed, and therefore whether or not to execute a program.
+The Controller class is the only class heiarchy currently involved in controlling the simulation. This allows for key mapping and naming. This data is used by the GUI class to determine which keys are being pressed, and therefore whether or not to execute a program.
 
 #####Visual Interface
 
@@ -58,4 +58,4 @@ The visual interface consists of several components, The GUI class is the centra
 
 ###Modification
 
-The program can be modified as much as one needs to get the desired result. To ensure the program's safety, I might suggest leaving the core functions alone unless you intend to modify them. However, it is up to you to choose how to use the program.
+The program can be modified as much as one needs to get the desired result. To ensure the program's safety, I might suggest leaving the core functions alone unless you intend to alter the interactions between all of the objects in the simulation. However, it is up to you to choose how to use the program.
